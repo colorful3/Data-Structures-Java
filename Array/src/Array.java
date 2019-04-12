@@ -1,6 +1,6 @@
-public class Array {
+public class Array<E> {
 
-    private int[] data;
+    private E[] data;
     private int size;
 
     public Array() {
@@ -12,7 +12,7 @@ public class Array {
      * @param capacity 数组容量
      */
     public Array(int capacity) {
-        data = new int[capacity];
+        data = (E[]) new Object[capacity];
         size = 0;
     }
 
@@ -32,23 +32,7 @@ public class Array {
         return data.length;
     }
 
-    /**
-     * 向所有元素后添加一个新元素
-     * @param e 要添加的额元素
-     */
-    public void addFirst(int e) {
-        add(0, e);
-    }
-
-    /**
-     * 想所有元素的后面添加一个新元素
-     * @param e 要添加的元素
-     */
-    public void addLast(int e) {
-        add(size, e);
-    }
-
-    void add(int index, int e) {
+    void add(int index, E e) {
 
         if(size == data.length)
             throw new IllegalArgumentException("AddLst failed. Array is full");
@@ -66,11 +50,27 @@ public class Array {
     }
 
     /**
+     * 向所有元素后添加一个新元素
+     * @param e 要添加的额元素
+     */
+    public void addFirst(E e) {
+        add(0, e);
+    }
+
+    /**
+     * 想所有元素的后面添加一个新元素
+     * @param e 要添加的元素
+     */
+    public void addLast(E e) {
+        add(size, e);
+    }
+
+    /**
      * 获取index索引位置的元素
      * @param index 索引
      * @return index索引位置的元素
      */
-    public int get(int index) {
+    public E get(int index) {
         if(index < 0 || index >= size)
             throw new IllegalArgumentException("Get failed. Index is illegal.");
         return data[index];
@@ -81,7 +81,7 @@ public class Array {
      * @param index 索引
      * @param e 要修改的元素
      */
-    public void set(int index, int e) {
+    public void set(int index, E e) {
         if(index < 0 || index >= size)
             throw new IllegalArgumentException("Get failed. Index is illegal.");
         data[index] = e;
@@ -92,9 +92,9 @@ public class Array {
      * @param e 要查找的元素
      * @return boolean
      */
-    public boolean contains(int e) {
+    public boolean contains(E e) {
         for(int i=0; i<size; i++) {
-            if(data[i] == e)
+            if(data[i].equals(e))
                 return true;
         }
         return false;
@@ -103,12 +103,12 @@ public class Array {
     /**
      * 查找数组中元素e所在位置的索引，不弱不存在元素e，则返回-1
      * @param e 带查找的方法
-     * @return int
+     * @return E
      */
-    public int find(int e) {
+    public int find(E e) {
         for(int i=0; i<size; i++) {
-            if(data[i] == e)
-                return e;
+            if(data[i].equals(e))
+                return i;
         }
         return -1;
     }
@@ -118,14 +118,15 @@ public class Array {
      * @param index 索引位置
      * @return 删除的元素
      */
-    public int remove(int index) {
+    public E remove(int index) {
         if(index < 0 || index >= size)
             throw new IllegalArgumentException("Remove failed. Index is illegal.");
-        int ret = data[index];
+        E ret = data[index];
         for(int i=index+1; i<size; i++) {
             data[i-1] = data[i];
         }
         size --;
+        data[size] = null; // loitering objects != memory leak
         return ret;
     }
 
@@ -133,7 +134,7 @@ public class Array {
      * 删除数组中第一个元素，返回删除的元素
      * @return 删除的元素
      */
-    public int removeFirst() {
+    public E removeFirst() {
         return remove(0);
     }
 
@@ -141,7 +142,7 @@ public class Array {
      * 删除数组总最后一个元素，返回删除的元素
      * @return 删除的元素
      */
-    public int removeLast() {
+    public E removeLast() {
         return remove(size - 1);
     }
 
@@ -149,7 +150,7 @@ public class Array {
      * 从数组中删除元素e
      * @param e 待删除的元素
      */
-    public void removeElement(int e) {
+    public void removeElement(E e) {
         int index = find(e);
         if(index != -1)
             remove(index);
