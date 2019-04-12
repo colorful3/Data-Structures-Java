@@ -70,7 +70,7 @@ public class Array {
      * @param index 索引
      * @return index索引位置的元素
      */
-    int get(int index) {
+    public int get(int index) {
         if(index < 0 || index >= size)
             throw new IllegalArgumentException("Get failed. Index is illegal.");
         return data[index];
@@ -81,10 +81,78 @@ public class Array {
      * @param index 索引
      * @param e 要修改的元素
      */
-    void set(int index, int e) {
+    public void set(int index, int e) {
         if(index < 0 || index >= size)
             throw new IllegalArgumentException("Get failed. Index is illegal.");
         data[index] = e;
+    }
+
+    /**
+     * 查找数组中是否包含元素e
+     * @param e 要查找的元素
+     * @return boolean
+     */
+    public boolean contains(int e) {
+        for(int i=0; i<size; i++) {
+            if(data[i] == e)
+                return true;
+        }
+        return false;
+    }
+
+    /**
+     * 查找数组中元素e所在位置的索引，不弱不存在元素e，则返回-1
+     * @param e 带查找的方法
+     * @return int
+     */
+    public int find(int e) {
+        for(int i=0; i<size; i++) {
+            if(data[i] == e)
+                return e;
+        }
+        return -1;
+    }
+
+    /**
+     * 删除数组中索引index位置的元素，返回删除的元素
+     * @param index 索引位置
+     * @return 删除的元素
+     */
+    public int remove(int index) {
+        if(index < 0 || index >= size)
+            throw new IllegalArgumentException("Remove failed. Index is illegal.");
+        int ret = data[index];
+        for(int i=index+1; i<size; i++) {
+            data[i-1] = data[i];
+        }
+        size --;
+        return ret;
+    }
+
+    /**
+     * 删除数组中第一个元素，返回删除的元素
+     * @return 删除的元素
+     */
+    public int removeFirst() {
+        return remove(0);
+    }
+
+    /**
+     * 删除数组总最后一个元素，返回删除的元素
+     * @return 删除的元素
+     */
+    public int removeLast() {
+        return remove(size - 1);
+    }
+
+    /**
+     * 从数组中删除元素e
+     * @param e 待删除的元素
+     */
+    public void removeElement(int e) {
+        int index = find(e);
+        if(index != -1)
+            remove(index);
     }
 
     /**
