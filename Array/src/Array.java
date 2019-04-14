@@ -59,7 +59,7 @@ public class Array<E> {
 
     /**
      * 想所有元素的后面添加一个新元素
-     * @param e 要添加的元素
+     * @parm e 要添加的元素
      */
     public void addLast(E e) {
         add(size, e);
@@ -127,7 +127,7 @@ public class Array<E> {
         }
         size --;
         data[size] = null; // loitering objects != memory leak
-        if(size == data.length / 2)
+        if(size == data.length / 4 && data.length / 2 != 0)  // lazy
             resize(data.length / 2);
         return ret;
     }
