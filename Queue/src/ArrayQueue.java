@@ -1,5 +1,3 @@
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
-
 public class ArrayQueue<E> implements Queue<E>{
 
     private Array<E> array;
